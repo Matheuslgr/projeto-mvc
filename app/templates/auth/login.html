@@ -8,6 +8,15 @@
 <body>
 
     <h1>Entrar no sistema</h1>
+    <!-- Exibir uma mensagem de erro se existir-->
+    {% if erro %}
+        <p style="color: red;">{{erro}}</p>
+    {% endif %}
+
+    <!-- Exibir uma mensagem de sucesso se existir-->
+    {% if request.query_params.get("cadastro") == "ok" %}
+        <p style="color: green;">Cadastro realizado! faça login</p>
+    {% endif %}
 
     <form action="/auth/login" method="post">   
         Email: <input type="email" name="email" required>

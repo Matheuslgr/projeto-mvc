@@ -37,7 +37,7 @@ def criar_token(dados: dict):
     payload = dados.copy()
 
     #Definir quando o token vai expirar
-    expira = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    expira = datetime.now(timezone.utc) + timedelta(minutes=int(ACCESS_TOKEN_EXPIRE_MINUTES))
     payload.update({"exp": expira})
     token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
     return token
@@ -70,3 +70,9 @@ def get_usuario_logado(resquest: Request):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="token inválido"
             )
+    
+def get_usuario_opcional(resquest: Request):
+    try:
+        return get_usuario_logado(resquest)
+    except HTTPException:
+        return None
