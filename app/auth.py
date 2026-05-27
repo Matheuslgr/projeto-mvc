@@ -76,3 +76,16 @@ def get_usuario_opcional(resquest: Request):
         return get_usuario_logado(resquest)
     except HTTPException:
         return None
+    
+
+# Dependencia que exige login e perfil do admin
+def get_admin(resquest: Request):
+    usuario = get_usuario_logado(resquest)
+
+    #Validar o admin
+    if usuario.get("role") != "admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Acesso restrito a administradores"
+        )
+    return usuario
